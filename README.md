@@ -1,6 +1,8 @@
 ![@](https://koreanbots.dev/api/widget/bots/servers/1197084521644961913.svg?icon=true) 
 ![@@](https://koreanbots.dev/api/widget/bots/status/1197084521644961913.svg?icon=true)
 
+# 이 코드는 시이를 js 로 옮긴 버전입니다. 본 버전은 포크 부분을 확인해 주세요
+
 ## 안내사항
 - 시이의 학습챗봇기능은 현제 pypi에 shii-study로 모듈화 되어 배포중 입니다. 자세한 내용은 https://github.com/boranloves/shii_study 에서 확인 해주세요.
 
