@@ -1,77 +1,32 @@
+/**
+ * recode by kjh9211 (python -> Javascript)
+ * code by studio boran (python)
+ */
 // Import zone
-const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus, Embedbuilder }= require("discord.js")
+const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus, EmbedBuilder }= require("discord.js")
 require("dotenv").config()
 const { check } = require('korcen')
 const fs = require("fs")
-// functions
-/**db 여는 함수 */
-function open_cer_db(){
-    try{
-        const f = fs.readFileSync("cer.json")
-        return f
-    }catch(e){
-        return {}
-    }
-}
-
-function put_cer_db(userid){
-    f = fs.readFileSync("cer.json");
-    
-}
-
-// classes
-class hogam {
-    add(hogamdo, userid){
-        f = fs.readFileSync("./data/hogam.json");
-        if (!f){
-            fs.writeFileSync("./data/hogam.json","{}");
-            return false
-        }
-        const testdata =  hogamdo-f[userid]
-        if (testdata > 5) return false
-        f[userid] = hogamdo
-        fs.writeFileSync("./data/hogam.json",f)
-        return true
-    }
-    load(userid){
-        f = fs.readFileSync("./data/hogam.json");
-        if (!f){
-            fs.writeFileSync("./data/hogam.json","{}");
-            return false
-        }
-        return f[userid]
-    }
-    cheak(userid){
-        f = fs.readFileSync("./data/hogam.json");
-        if (!f){
-            fs.writeFileSync("./data/hogam.json","{}");
-            return "File is not found. So I made hogam.json file."
-        }
-        if (!f[userid]){
-            f[userid] = 0
-            fs.writeFileSync("./data/hogam.json",f)
-            return
-        }
-    }
-}
 // setup
-bser_api_key = process.env.bser
-naver_client_id = process.env.naver
-KAKAO_API_KEY = process.env.kakao
-naver_client_secret = process.env.navers
+const bser_api_key = process.env.bser;
+const naver_client_id = process.env.naver;
+const KAKAO_API_KEY = process.env.kakao;
+const naver_client_secret = process.env.navers;
+const TOKEN = process.env.token;
 
-json_file_path = 'bot_info.json'
-attendance_file = 'attendance.json'
-c = 'server_data.json'
-happiness_file_path = 'happiness.json'
-mamo_file = 'mamo.json'
-lv_file = 'lv.json'
-SETTINGS_FILE = "bot_settings.json"
-count_FILE = 'count.json'
-mining_limit = 10
-capital_file = 'money.json'
-stocks_file = 'jusik.json'
-user_stocks_file = 'user_jusik.json'
+const json_file_path = './data/bot_info.json';
+const attendance_file = './data/attendance.json';
+const c = './data/server_data.json';
+const happiness_file_path = './data/happiness.json';
+const mamo_file = './data/mamo.json';
+const lv_file = './data/lv.json';
+const SETTINGS_FILE = "./data/bot_settings.json";
+const count_FILE = './data/count.json';
+const mining_limit = 10;
+const capital_file = './data/money.json';
+const stocks_file = './data/jusik.json';
+const user_stocks_file = './data/user_jusik.json';
+const hogam_path = "./data/hogam.json";
 previous_value = {
     '이시가전': 0,
     '고구우글': 0,
@@ -99,6 +54,69 @@ start_time = datetime.utcnow()
 why = ['으에?', '몰?루', '왜요용', '잉', '...?', '몰라여', '으에.. 그게 뭐징?', '네?']
 active_polls = {}
 voted_users = {}
+// functions
+/**db 여는 함수 */
+function open_cer_db(){
+    try{
+        const f = fs.readFileSync("cer.json")
+        return f
+    }catch(e){
+        return {}
+    }
+}
+
+function put_cer_db(userid){
+    f = fs.readFileSync("cer.json");
+    
+}
+
+async function gumrul(text){
+    const gum = await check(text)
+    if (gum) return "그건 나쁜 말 이래요!";
+    if (text !== text.replace("@",2)) return "@ 가 포함되어 있어요..."
+    // 링크 검열 함수 라이브러리 사용 => if (text.replace("[",2)&&text.replace("](",2)&&text.replace(")",2)) return "링크가 포함되어 있어요..."
+    
+    
+}
+// classes
+class hogam {
+    add(hogamdo, userid){
+        f = fs.readFileSync(hogam_path);
+        if (!f){
+            fs.writeFileSync(hogam_path,"{}");
+            return false
+        }
+        const testdata =  hogamdo-f[userid]
+        if (testdata > 5) return false
+        f[userid] = hogamdo
+        fs.writeFileSync(hogam_path,f)
+        return true
+    }
+    load(userid){
+        f = fs.readFileSync(hogam_path);
+        if (!f){
+            fs.writeFileSync(hogam_path,"{}");
+            return false
+        }
+        return f[userid]
+    }
+    cheak(userid){
+        f = fs.readFileSync(hogam_path);
+        if (!f){
+            fs.writeFileSync(hogam_path,"{}");
+            return;
+        }
+        if (!f[userid]){
+            f[userid] = 0
+            fs.writeFileSync(hogam_path,f)
+            return
+        }
+    }
+}
+/**dropdown */
+
+
+
 //
 const client = new Client({
     intents: [
@@ -135,3 +153,5 @@ client.once('ready', () => {
     client.user.setStatus(PresenceUpdateStatus.Online);
     startTime = Date.now();
 });
+
+client.login(TOKEN)
